@@ -2,3 +2,112 @@
     Alec is here!!!!!
      <h1>Hello POOPY LOOPY MOOpdifj</h1>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clicker Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        #game {
+            text-align: center;
+        }
+
+        #ball {
+            width: 100px;
+            height: 100px;
+            margin: 20px auto;
+            border-radius: 50%;
+            background-color: #3498db;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        #stats {
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="game">
+        <div id="ball">ALEC</div>
+        <div id="stats">
+            <p>Clicks: <span id="clicks">0</span></p>
+            <p>Autoclicker Level: <span id="autoclicker-level">0</span></p>
+            <button id="buy-autoclicker">Buy Autoclicker (10 Clicks)</button>
+        </div>
+    </div>
+
+    <script>
+        let clicks = 0;
+        let autoclickerLevel = 0;
+        let autoclickerInterval = null;
+
+        const ball = document.getElementById('ball');
+        const clicksDisplay = document.getElementById('clicks');
+        const autoclickerDisplay = document.getElementById('autoclicker-level');
+        const buyAutoclickerButton = document.getElementById('buy-autoclicker');
+
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        function updateDisplays() {
+            clicksDisplay.textContent = clicks;
+            autoclickerDisplay.textContent = autoclickerLevel;
+        }
+
+        function handleBallClick() {
+            clicks++;
+            ball.style.backgroundColor = getRandomColor();
+            updateDisplays();
+        }
+
+        function handleAutoclickerUpgrade() {
+            if (clicks >= 10) {
+                clicks -= 10;
+                autoclickerLevel++;
+                updateDisplays();
+                if (autoclickerInterval) clearInterval(autoclickerInterval);
+                autoclickerInterval = setInterval(() => {
+                    clicks++;
+                    updateDisplays();
+                }, 1000 / (2 * autoclickerLevel));
+            } else {
+                alert('Not enough clicks to buy an autoclicker.');
+            }
+        }
+
+        ball.addEventListener('click', handleBallClick);
+        buyAutoclickerButton.addEventListener('click', handleAutoclickerUpgrade);
+
+        updateDisplays();
+    </script>
+</body>
+</html>
